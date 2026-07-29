@@ -1,0 +1,16 @@
+# Linear Search
+
+products = list(map(int, input("Enter Product IDs: ").split()))
+
+target = int(input("Enter Product ID to search: "))
+
+found = False
+
+for i in range(len(products)):
+    if products[i] == target:
+        print("Product found at index", i)
+        found = True
+        break
+
+if not found:
+    print("Product not found")
