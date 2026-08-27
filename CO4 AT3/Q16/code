@@ -1,0 +1,55 @@
+def orientation(p, q, r):
+    return ((q[0] - p[0]) * (r[1] - p[1]) -
+            (q[1] - p[1]) * (r[0] - p[0]))
+
+
+def convex_hull(points):
+
+    # Remove duplicates and sort points
+    points = sorted(set(points))
+
+    if len(points) <= 2:
+        return points
+
+    # Lower Hull
+    lower = []
+
+    for p in points:
+        while len(lower) >= 2 and orientation(
+                lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+
+        lower.append(p)
+
+    # Upper Hull
+    upper = []
+
+    for p in reversed(points):
+        while len(upper) >= 2 and orientation(
+                upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+
+        upper.append(p)
+
+    # Combine lower and upper hull
+    return lower[:-1] + upper[:-1]
+
+
+# Input
+points = [
+    (0, 0),
+    (2, 0),
+    (2, 2),
+    (0, 2),
+    (1, 1),
+    (1, 0),
+    (0, 1)
+]
+
+print("Input Points:")
+print(points)
+
+hull = convex_hull(points)
+
+print("\nConvex Hull:")
+print(hull)/
