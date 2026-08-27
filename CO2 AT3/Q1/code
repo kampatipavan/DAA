@@ -1,0 +1,57 @@
+def orientation(p, q, r):
+    """
+    Returns the orientation of three points.
+    > 0 : Counter-clockwise
+    < 0 : Clockwise
+    = 0 : Collinear
+    """
+    return ((q[0] - p[0]) * (r[1] - p[1]) -
+            (q[1] - p[1]) * (r[0] - p[0]))
+
+
+def convex_hull(points):
+    # Remove duplicate points and sort
+    points = sorted(set(points))
+
+    # Less than 3 points cannot form a hull
+    if len(points) <= 2:
+        return points
+
+    # Build lower hull
+    lower = []
+
+    for p in points:
+        while len(lower) >= 2 and orientation(lower[-2], lower[-1], p) <= 0:
+            lower.pop()
+        lower.append(p)
+
+    # Build upper hull
+    upper = []
+
+    for p in reversed(points):
+        while len(upper) >= 2 and orientation(upper[-2], upper[-1], p) <= 0:
+            upper.pop()
+        upper.append(p)
+
+    # Remove duplicate starting/ending points
+    return lower[:-1] + upper[:-1]
+
+
+# Sample input
+points = [
+    (0, 0),
+    (2, 0),
+    (2, 2),
+    (0, 2),
+    (1, 1),
+    (1, 0),
+    (0, 1)
+]
+
+hull = convex_hull(points)
+
+print("Input Points:")
+print(points)
+
+print("\nConvex Hull:")
+print(hull)
