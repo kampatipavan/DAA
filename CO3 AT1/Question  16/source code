@@ -1,0 +1,169 @@
+import random
+import time
+
+
+# ---------------------------------------------------------
+# Binary Search
+# ---------------------------------------------------------
+def binary_search(arr, target):
+    low = 0
+    high = len(arr) - 1
+    comparisons = 0
+
+    while low <= high:
+        comparisons += 1
+        mid = (low + high) // 2
+
+        if arr[mid] == target:
+            return mid, comparisons
+
+        elif arr[mid] < target:
+            low = mid + 1
+
+        else:
+            high = mid - 1
+
+    return -1, comparisons
+
+
+# ---------------------------------------------------------
+# Linear Search
+# ---------------------------------------------------------
+def linear_search(arr, target):
+    comparisons = 0
+
+    for i in range(len(arr)):
+        comparisons += 1
+
+        if arr[i] == target:
+            return i, comparisons
+
+    return -1, comparisons
+
+
+# ---------------------------------------------------------
+# Convert Multi-Dimensional Dataset into 1D
+# ---------------------------------------------------------
+def flatten_dataset(dataset):
+    flat_data = []
+
+    for row in dataset:
+        for value in row:
+            flat_data.append(value)
+
+    return flat_data
+
+
+# ---------------------------------------------------------
+# Generate Multi-Dimensional Dataset
+# ---------------------------------------------------------
+def generate_dataset(rows, columns):
+    dataset = []
+
+    for i in range(rows):
+        row = []
+
+        for j in range(columns):
+            row.append(random.randint(1, 1000000))
+
+        dataset.append(row)
+
+    return dataset
+
+
+# ---------------------------------------------------------
+# Performance Testing
+# ---------------------------------------------------------
+def test_performance(rows, columns):
+
+    # Generate 2D dataset
+    dataset = generate_dataset(rows, columns)
+
+    # Convert 2D dataset into 1D
+    flat_data = flatten_dataset(dataset)
+
+    total_elements = len(flat_data)
+
+    # Choose an existing value as target
+    target = flat_data[total_elements // 2]
+
+    # -----------------------------------------------------
+    # Sorting Time
+    # -----------------------------------------------------
+    start_sort = time.perf_counter()
+
+    sorted_data = sorted(flat_data)
+
+    end_sort = time.perf_counter()
+
+    sorting_time = end_sort - start_sort
+
+    # -----------------------------------------------------
+    # Binary Search Time
+    # -----------------------------------------------------
+    start_binary = time.perf_counter()
+
+    binary_index, binary_comparisons = binary_search(
+        sorted_data,
+        target
+    )
+
+    end_binary = time.perf_counter()
+
+    binary_time = end_binary - start_binary
+
+    # -----------------------------------------------------
+    # Linear Search Time
+    # -----------------------------------------------------
+    start_linear = time.perf_counter()
+
+    linear_index, linear_comparisons = linear_search(
+        flat_data,
+        target
+    )
+
+    end_linear = time.perf_counter()
+
+    linear_time = end_linear - start_linear
+
+    # -----------------------------------------------------
+    # Display Results
+    # -----------------------------------------------------
+
+    print("\n--------------------------------------------")
+    print("Dataset Size :", rows, "x", columns)
+    print("Total Elements :", total_elements)
+    print("Target Value :", target)
+
+    print("\nSorting Results")
+    print("Sorting Time :", format(sorting_time, ".8f"), "seconds")
+
+    print("\nBinary Search Results")
+    print("Index :", binary_index)
+    print("Comparisons :", binary_comparisons)
+    print("Execution Time :", format(binary_time, ".8f"), "seconds")
+    print("Search Complexity : O(log n)")
+
+    print("\nLinear Search Results")
+    print("Index :", linear_index)
+    print("Comparisons :", linear_comparisons)
+    print("Execution Time :", format(linear_time, ".8f"), "seconds")
+    print("Search Complexity : O(n)")
+
+    print("--------------------------------------------")
+
+
+# ---------------------------------------------------------
+# Main Program
+# ---------------------------------------------------------
+
+print("BINARY SEARCH ON MULTI-DIMENSIONAL DATASETS")
+
+# Small dataset
+test_performance(10, 10)
+
+# Medium dataset
+test_performance(100, 100)
+
+# Large dataset
+test_performance(500, 500)
