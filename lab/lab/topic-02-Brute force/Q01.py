@@ -1,0 +1,2 @@
+tests=[[],[1],[7,7,7,7],[-5,-1,-3,-2,-4]]
+for a in tests: print(sorted(a))
